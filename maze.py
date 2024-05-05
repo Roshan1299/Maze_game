@@ -172,27 +172,8 @@ def main() :
     display_map(grid,player)
     #user = input()   
     while not game_over :
-        # grid = load_map(MAP_FILE)
-        # player = find_start(grid)
-        # clear_screen()
-        # print_location(0,1,"Maze Game")
-        # print_location(0,2,display_help(HELP_FILE))
-        # av = ''.join(look_around(grid,player))
-        # print_location(0,4,"You can go "+av)
-        # display_map(grid,player)
         user = input()
-        #if user == "show map" :
-        #    display_map(grid,player)
-        #    print('You can go',', '.join(look_around(grid,player)))
-        #    game_over = False
         if user.startswith('go ') :
-            # clear_screen()
-            # print_location(0,1,"Maze Game")
-            # print_location(0,3,display_help(HELP_FILE))
-            # av = ''.join(look_around(grid,player))
-            # print_location(0,6,"You can go "+av)
-            # move_cursor(0,8)
-            # display_map(grid,player)
             direction = user.split()[1]                 #split fucntion, makes it into 2 objects in a list, and then accesses the index 1, which is direction 
             success , player = move(direction,player,grid)   #here bool as well as the current player position will be returned                   
             if check_finish(grid,player) :
