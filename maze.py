@@ -1,7 +1,42 @@
+import os
 from copy import deepcopy 
 
 MAP_FILE = 'cave_map.txt'
 HELP_FILE = 'help.txt'
+
+os.system("")       # Enables ANSI escape codes in terminal
+    
+def clear_screen():
+    """
+    Clears the terminal screen.
+    """
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
+        
+def print_location(x, y, text):
+    '''
+    Prints text at the specified location on the terminal.
+    Input:
+        - x (int): row number
+        - y (int): column number
+        - text (str): text to print
+    Returns: N/A
+    '''
+    print ("\033[{1};{0}H{2}".format(x, y, text)) 
+    
+def move_cursor(x, y):
+    '''
+    Moves the cursor to the specified location on the terminal.
+    Input:
+        - x (int): row number
+        - y (int): column number
+    Returns: N/A
+    '''
+    print("\033[{1};{0}H".format(x, y), end='')
+    
+    
 
 def load_map(map_file) :
     with open(map_file,'r') as file :
@@ -122,39 +157,74 @@ def check_finish(grid,player_position) :
         
 def display_help(file):
     with open(file,'r') as file :
-        print(file.read())
-    
-    
-    
+        return (file.read())
+        
 def main() :
+    game_over = False
     grid = load_map(MAP_FILE)
     player = find_start(grid)
-    display_help(HELP_FILE)
-    print('You can go',''.join(look_around(grid,player)))
-    #display_map(grid,player)
-    user = input()   
-    while user == 'show map' :
-        display_map(grid,player)
-        print('You can go',', '.join(look_around(grid,player)))
+    clear_screen()
+    print_location(0,1,"Maze Game")
+    print_location(0,3,display_help(HELP_FILE))
+    av = ''.join(look_around(grid,player))
+    print_location(0,6,"You can go "+av)
+    move_cursor(0,8)
+    display_map(grid,player)
+    #user = input()   
+    while not game_over :
+        # grid = load_map(MAP_FILE)
+        # player = find_start(grid)
+        # clear_screen()
+        # print_location(0,1,"Maze Game")
+        # print_location(0,2,display_help(HELP_FILE))
+        # av = ''.join(look_around(grid,player))
+        # print_location(0,4,"You can go "+av)
+        # display_map(grid,player)
         user = input()
-        while user.startswith('go '):                   #returns true if it starts with 'go '
+        #if user == "show map" :
+        #    display_map(grid,player)
+        #    print('You can go',', '.join(look_around(grid,player)))
+        #    game_over = False
+        if user.startswith('go ') :
+            # clear_screen()
+            # print_location(0,1,"Maze Game")
+            # print_location(0,3,display_help(HELP_FILE))
+            # av = ''.join(look_around(grid,player))
+            # print_location(0,6,"You can go "+av)
+            # move_cursor(0,8)
+            # display_map(grid,player)
             direction = user.split()[1]                 #split fucntion, makes it into 2 objects in a list, and then accesses the index 1, which is direction 
             success , player = move(direction,player,grid)   #here bool as well as the current player position will be returned                   
             if check_finish(grid,player) :
                 print('Congratulations! You have reached the exit!')    #when player reaches finish, this is displayed
-                exit() 
-            if success :
-                print('you moved', direction)
-                print('You can go',', '.join(look_around(grid,player))) #it shows all the suitable directions we can go
+                game_over = True 
+            elif success :
+                clear_screen()
+                print_location(0,7,'you moved '+direction)
+                print_location(0,6,'You can go '+', '.join(look_around(grid,player))) #it shows all the suitable directions we can go
+                print_location(0,1,"Maze Game")
+                print_location(0,3,display_help(HELP_FILE))
+                av = ''.join(look_around(grid,player))
+                #print_location(0,6,"You can go "+av)
+                move_cursor(0,9)
+                display_map(grid,player)
+                game_over = False
             else :
-                print('There is no way there.')
-                print('You can go',', '.join(look_around(grid,player)))
+                clear_screen()
+                print_location(0,7,'There is no way there.')
+                print_location(0,6,'You can go '+', '.join(look_around(grid,player)))
+                print_location(0,1,"Maze Game")
+                print_location(0,3,display_help(HELP_FILE))
+                av = ''.join(look_around(grid,player))
+                #print_location(0,6,"You can go "+av)
+                move_cursor(0,9)
+                display_map(grid,player)
+                game_over = False
                 
-            user = input()    
-    if user == 'escape' :
-        exit()
-         
-           
-    
+   
+        elif user == 'escape' :
+            game_over = True
+        
+             
 if __name__ ==  '__main__' :
     main()
