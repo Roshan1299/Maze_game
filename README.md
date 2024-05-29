@@ -10,8 +10,3 @@ This is a simple text-based game where the player navigates through a cave to fi
 - Check for obstacles and the exit. <br/>
 - Display help information for the game. <br/>
 - Gracefully handle invalid commands and game-ending scenarios.<br/>
-
-
-
-
-  
