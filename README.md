@@ -4,7 +4,7 @@ This is a simple text-based game where the player navigates through a cave to fi
 
 ## Features
 
-- Load a map from a text file. <br/>
+- Load a map from a text file. 
 - Display the map with emojis representing different elements. <br/>
 - Move the player character ('@') using simple text commands. <br/>
 - Check for obstacles and the exit. <br/>
