@@ -159,9 +159,26 @@ def display_help(file):
     with open(file,'r') as file :
         return (file.read())
         
+def choose_difficulty():
+    while True:
+        print_location(0,2,"Choose your difficulty level (1-4):")
+        print_location(0,4,"1: Easy")
+        print_location(0,5,"2: Medium")
+        print_location(0,6,"3: Hard")
+        print_location(0,7,"4: Very Hard")
+        difficulty = input("Enter a number between 1 and 4: ")
+        if difficulty in ['1', '2', '3', '4']:
+            return f"level_{difficulty}.txt"
+        else:
+            print("Invalid input. Please enter a number between 1 and 4.")
+
+
+
 def main() :
     game_over = False
-    grid = load_map(MAP_FILE)
+    print_location(0,1,"Maze Game")
+    level_file = choose_difficulty()
+    grid = load_map(level_file) 
     player = find_start(grid)
     clear_screen()
     print_location(0,1,"Maze Game")
